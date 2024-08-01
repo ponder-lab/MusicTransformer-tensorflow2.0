@@ -43,7 +43,7 @@ $ cd MusicTransformer-tensorflow2.0
 ## Midi Download	
 
 ```bash
-$ sh dataset/script/{ecomp_piano_downloader, midi_world_downloader, ...}.sh
+$ dataset/script/{ecomp_piano_downloader, midi_world_downloader, ...}.sh
 ```
 
 * These shell files are from [performaceRNN re-built repository](https://github.com/djosix/Performance-RNN-PyTorch) implemented by [djosix](https://github.com/djosix)
