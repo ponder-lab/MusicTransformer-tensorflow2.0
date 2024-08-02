@@ -73,6 +73,11 @@ eval_log_dir = 'logs/mt_decoder/'+current_time+'/eval'
 train_summary_writer = tf.summary.create_file_writer(train_log_dir)
 eval_summary_writer = tf.summary.create_file_writer(eval_log_dir)
 
+total_loss = 0
+loss_count = 0
+
+total_accuracy = 0
+accuracy_count = 0
 
 # Train Start
 idx = 0
@@ -96,7 +101,11 @@ for e in range(epochs):
                     tf.summary.histogram("source_analysis", batch_x, step=e)
 
                 tf.summary.scalar('loss', result_metrics[0], step=idx)
+                total_loss += result_metrics[0]
+                loss_count += 1
                 tf.summary.scalar('accuracy', result_metrics[1], step=idx)
+                total_accuracy += result_metrics[1]
+                accuracy_count += 1
 
             with eval_summary_writer.as_default():
                 if b == 0:
@@ -124,6 +133,8 @@ for e in range(epochs):
 
 
 time = timeit.default_timer() - start_time - skipped_time
+avg_loss = float(total_loss) / float(loss_count)
+avg_accuracy = float(total_accuracy) / float(accuracy_count)
 
-write_csv(__file__, epochs=epochs, time=time)
+write_csv(__file__, epochs=epochs, accuracy=float(avg_accuracy), loss=float(avg_loss), time=time)
 
