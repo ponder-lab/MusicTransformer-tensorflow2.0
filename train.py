@@ -9,6 +9,9 @@ import argparse
 import datetime
 import sys
 
+from scripts.utils import write_csv
+import timeit
+
 tf.executing_eagerly()
 
 parser = argparse.ArgumentParser()
@@ -49,6 +52,8 @@ print(dataset)
 learning_rate = callback.CustomSchedule(par.embedding_dim) if l_r is None else l_r
 opt = Adam(learning_rate, beta_1=0.9, beta_2=0.98, epsilon=1e-9)
 
+start_time = timeit.default_timer()
+skipped_time = 0
 
 # define model
 mt = MusicTransformerDecoder(
@@ -82,7 +87,9 @@ for e in range(epochs):
         if b % 100 == 0:
             eval_x, eval_y = dataset.slide_seq2seq_batch(batch_size, max_seq, 'eval')
             eval_result_metrics, weights = mt.evaluate(eval_x, eval_y)
+            print_time = timeit.default_timer()
             mt.save(save_path)
+            skipped_time += timeit.default_timer() - print_time
             with train_summary_writer.as_default():
                 if b == 0:
                     tf.summary.histogram("target_analysis", batch_y, step=e)
@@ -108,9 +115,15 @@ for e in range(epochs):
                 #         with tf.name_scope("_w1"):
                 #             utils.attention_image_summary(weight[1])
             idx += 1
+            print_time = timeit.default_timer()
             print('\n====================================================')
             print('Epoch/Batch: {}/{}'.format(e, b))
             print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
             print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
+            skipped_time += timeit.default_timer() - print_time
 
+
+time = timeit.default_timer() - start_time - skipped_time
+
+write_csv(__file__, epochs=epochs, time=time)
 
