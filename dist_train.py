@@ -38,7 +38,7 @@ multi_gpu = args.multi_gpu
 
 
 # load data
-dataset = Data('dataset/processed')
+dataset = Data(pickle_dir)
 print(dataset)
 
 
