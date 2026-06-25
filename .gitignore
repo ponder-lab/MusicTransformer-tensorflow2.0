@@ -13,3 +13,22 @@ result/
 model/
 logs/
 .dfc/
+
+# Swap files
+*.swp
+*.swo
+
+# Temporary files
+*~
+*.tmp
+
+# Backup files
+*.bak
+*.un~
+
+# Undos
+*.undo
+
+# Session files
+Session.vim
+Sessionx.vim
