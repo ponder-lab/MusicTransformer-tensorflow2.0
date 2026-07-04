@@ -435,6 +435,7 @@
 import numpy as np
 import copy, itertools, collections
 from pretty_midi import PrettyMIDI, Note, Instrument
+from tensorflow import function
 
 # ==================================================================================
 # Parameters
@@ -612,6 +613,7 @@ class EventSeq:
         return EventSeq(events)
 
     @staticmethod
+    @function
     def from_array(event_indeces):
         time = 0
         events = []
