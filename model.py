@@ -8,6 +8,7 @@ import tensorflow_probability as tfp
 import random
 import utils
 from progress.bar import Bar
+from tensorflow import function
 tf.executing_eagerly()
 
 
@@ -38,6 +39,7 @@ class MusicTransformer(keras.Model):
         if loader_path is not None:
             self.load_ckpt_file(loader_path)
 
+    @function
     def call(self, inputs, targets, training=None, eval=None, src_mask=None, trg_mask=None, lookup_mask=None):
         encoder, weight_encoder = self.Encoder(inputs, training=training, mask=src_mask)
         decoder, weights = self.Decoder(
@@ -236,6 +238,7 @@ class MusicTransformer(keras.Model):
         self.dist = config['dist']
 
     @staticmethod
+    @function
     def __prepare_train_data(x, y):
         start_token = tf.ones((y.shape[0], 1), dtype=y.dtype) * par.token_sos
         # end_token = tf.ones((y.shape[0], 1), dtype=y.dtype) * par.token_eos
@@ -283,6 +286,7 @@ class MusicTransformerDecoder(keras.Model):
         if loader_path is not None:
             self.load_ckpt_file(loader_path)
 
+    @function
     def call(self, inputs, training=None, eval=None, lookup_mask=None):
         decoder, w = self.Decoder(inputs, training=training, mask=lookup_mask)
         fc = self.fc(decoder)
