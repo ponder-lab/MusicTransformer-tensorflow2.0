@@ -90,6 +90,7 @@ class DynamicPositionEmbedding(keras.layers.Layer):
         ]])
         self.positional_embedding = tf.constant(embed_sinusoid_list, dtype=tf.float32)
 
+    @tf.function
     def call(self, inputs, **kwargs):
         return tf.add(inputs, self.positional_embedding[:,:inputs.shape[1],:])
 
@@ -361,6 +362,7 @@ class Encoder(keras.layers.Layer):
                            for i in range(num_layers)]
         self.dropout = keras.layers.Dropout(rate)
 
+    @tf.function
     def call(self, x, mask=None, training=False):
         weights = []
         # adding embedding and position encoding.
@@ -389,6 +391,7 @@ class Decoder(keras.layers.Layer):
                            for i in range(num_layers)]
         self.dropout = keras.layers.Dropout(rate)
 
+    @tf.function
     def call(self, x, mask, lookup_mask, training, enc_output=None):
         weights = []
         # adding embedding and position encoding.

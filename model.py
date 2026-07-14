@@ -83,7 +83,6 @@ class MusicTransformer(keras.Model):
         return [loss.numpy()]+result_metric
 
     # @tf.function
-    @function
     def __dist_train_step(self, inp, inp_tar, out_tar, enc_mask, tar_mask, lookup_mask, training):
         return self._distribution_strategy.experimental_run_v2(
             self.__train_step, args=(inp, inp_tar, out_tar, enc_mask, tar_mask, lookup_mask, training))
@@ -239,6 +238,7 @@ class MusicTransformer(keras.Model):
         self.dist = config['dist']
 
     @staticmethod
+    @function
     def __prepare_train_data(x, y):
         start_token = tf.ones((y.shape[0], 1), dtype=y.dtype) * par.token_sos
         # end_token = tf.ones((y.shape[0], 1), dtype=y.dtype) * par.token_eos
@@ -326,7 +326,6 @@ class MusicTransformerDecoder(keras.Model):
         return [loss.numpy()]+result_metric
 
     # @tf.function
-    @function
     def __dist_train_step(self, inp_tar, out_tar, lookup_mask, training):
         return self._distribution_strategy.experimental_run_v2(
             self.__train_step, args=(inp_tar, out_tar, lookup_mask, training))
