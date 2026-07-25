@@ -1,0 +1,12 @@
+{
+  "types": [
+    {
+      "module": "data.py",
+      "function": "Data._get_seq",
+      "variable": "data",
+      "dtype": "int64",
+      "shape": "n",
+      "attribution": "pickle.load of encode_midi token-id lists; empirically recorded 2026-07-25 over the subject's 329 shipped pickles: every one a list of int, np.array yields int64, rank-1, variable length (2364-5257 sampled), values within the 391-token vocabulary."
+    }
+  ]
+}
