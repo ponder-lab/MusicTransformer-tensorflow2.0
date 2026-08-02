@@ -362,7 +362,6 @@ class Encoder(keras.layers.Layer):
                            for i in range(num_layers)]
         self.dropout = keras.layers.Dropout(rate)
 
-    @tf.function
     def call(self, x, mask=None, training=False):
         weights = []
         # adding embedding and position encoding.
@@ -391,7 +390,6 @@ class Decoder(keras.layers.Layer):
                            for i in range(num_layers)]
         self.dropout = keras.layers.Dropout(rate)
 
-    @tf.function
     def call(self, x, mask, lookup_mask, training, enc_output=None):
         weights = []
         # adding embedding and position encoding.

@@ -39,7 +39,6 @@ class MusicTransformer(keras.Model):
         if loader_path is not None:
             self.load_ckpt_file(loader_path)
 
-    @function
     def call(self, inputs, targets, training=None, eval=None, src_mask=None, trg_mask=None, lookup_mask=None):
         encoder, weight_encoder = self.Encoder(inputs, training=training, mask=src_mask)
         decoder, weights = self.Decoder(
@@ -286,7 +285,6 @@ class MusicTransformerDecoder(keras.Model):
         if loader_path is not None:
             self.load_ckpt_file(loader_path)
 
-    @function
     def call(self, inputs, training=None, eval=None, lookup_mask=None):
         decoder, w = self.Decoder(inputs, training=training, mask=lookup_mask)
         fc = self.fc(decoder)
