@@ -153,6 +153,7 @@ def weights2boards(weights, dir, step): # weights stored weight[layer][w1,w2]
     pass
 
 
+@tf.function(input_signature=[tf.TensorSpec(shape=(None, None, None, None), dtype=tf.float32)])
 def shape_list(x):
   """Shape list"""
   x_shape = tf.shape(x)
