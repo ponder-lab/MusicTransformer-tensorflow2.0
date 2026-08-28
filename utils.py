@@ -153,6 +153,7 @@ def weights2boards(weights, dir, step): # weights stored weight[layer][w1,w2]
     pass
 
 
+@tf.function
 def shape_list(x):
   """Shape list"""
   x_shape = tf.shape(x)
