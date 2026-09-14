@@ -90,6 +90,7 @@ class DynamicPositionEmbedding(keras.layers.Layer):
         ]])
         self.positional_embedding = tf.constant(embed_sinusoid_list, dtype=tf.float32)
 
+    @tf.function
     def call(self, inputs, **kwargs):
         return tf.add(inputs, self.positional_embedding[:,:inputs.shape[1],:])
 
@@ -239,6 +240,7 @@ class RelativeGlobalAttention(keras.layers.Layer):
         return e
 
     @staticmethod
+    @tf.function
     def _qe_masking(qe):
         mask = tf.sequence_mask(
             tf.range(qe.shape[-1] -1, qe.shape[-1] - qe.shape[-2] -1, -1), qe.shape[-1])
@@ -248,6 +250,7 @@ class RelativeGlobalAttention(keras.layers.Layer):
 
         return mask * qe
 
+    @tf.function
     def _skewing(self, tensor: tf.Tensor):
         padded = tf.pad(tensor, [[0, 0], [0,0], [0, 0], [1, 0]])
         reshaped = tf.reshape(padded, shape=[-1, padded.shape[1], padded.shape[-1], padded.shape[-2]])
