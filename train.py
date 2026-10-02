@@ -108,10 +108,14 @@ for e in range(epochs):
                 tf.summary.scalar('loss', result_metrics[0], step=idx)
                 tf.summary.scalar('accuracy', result_metrics[1], step=idx)
 
+            skipped_time += timeit.default_timer() - summary_time
+
             with eval_summary_writer.as_default():
+                # Timed: a forward pass on the eval batch. Its image summary is written inside it.
                 if b == 0:
                     mt.sanity_check(eval_x, eval_y, step=e)
 
+                summary_time = timeit.default_timer()
                 tf.summary.scalar('loss', eval_result_metrics[0], step=idx)
                 tf.summary.scalar('accuracy', eval_result_metrics[1], step=idx)
                 for i, weight in enumerate(weights):
