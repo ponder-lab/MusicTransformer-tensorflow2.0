@@ -95,17 +95,18 @@ for e in range(epochs):
             print_time = timeit.default_timer()
             mt.save(save_path)
             skipped_time += timeit.default_timer() - print_time
+            total_loss += result_metrics[0]
+            loss_count += 1
+            total_accuracy += result_metrics[1]
+            accuracy_count += 1
+            summary_time = timeit.default_timer()
             with train_summary_writer.as_default():
                 if b == 0:
                     tf.summary.histogram("target_analysis", batch_y, step=e)
                     tf.summary.histogram("source_analysis", batch_x, step=e)
 
                 tf.summary.scalar('loss', result_metrics[0], step=idx)
-                total_loss += result_metrics[0]
-                loss_count += 1
                 tf.summary.scalar('accuracy', result_metrics[1], step=idx)
-                total_accuracy += result_metrics[1]
-                accuracy_count += 1
 
             with eval_summary_writer.as_default():
                 if b == 0:
@@ -123,6 +124,7 @@ for e in range(epochs):
                 #             utils.attention_image_summary(weight[0])
                 #         with tf.name_scope("_w1"):
                 #             utils.attention_image_summary(weight[1])
+            skipped_time += timeit.default_timer() - summary_time
             idx += 1
             print_time = timeit.default_timer()
             print('\n====================================================')
