@@ -95,10 +95,6 @@ for e in range(epochs):
             print_time = timeit.default_timer()
             mt.save(save_path)
             skipped_time += timeit.default_timer() - print_time
-            total_loss += result_metrics[0]
-            loss_count += 1
-            total_accuracy += result_metrics[1]
-            accuracy_count += 1
             summary_time = timeit.default_timer()
             with train_summary_writer.as_default():
                 if b == 0:
@@ -106,12 +102,14 @@ for e in range(epochs):
                     tf.summary.histogram("source_analysis", batch_x, step=e)
 
                 tf.summary.scalar('loss', result_metrics[0], step=idx)
+                total_loss += result_metrics[0]
+                loss_count += 1
                 tf.summary.scalar('accuracy', result_metrics[1], step=idx)
-
+                total_accuracy += result_metrics[1]
+                accuracy_count += 1
             skipped_time += timeit.default_timer() - summary_time
 
             with eval_summary_writer.as_default():
-                # Timed: a forward pass on the eval batch. Its image summary is written inside it.
                 if b == 0:
                     mt.sanity_check(eval_x, eval_y, step=e)
 
