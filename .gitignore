@@ -32,3 +32,5 @@ logs/
 # Session files
 Session.vim
 Sessionx.vim
+# The training notebook (music-transformer-train.py) saves its model here, in the subject root.
+mt-2048-h4-dim256.h5/
