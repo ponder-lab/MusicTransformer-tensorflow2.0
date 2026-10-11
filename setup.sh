@@ -14,3 +14,7 @@ if [[ ! -f "$fetch" ]]; then
     exit 1
 fi
 bash "$fetch" musictransformer
+
+# The converted training notebook (music-transformer-train.py) reads the same pickles at its Colab
+# path, dataset/processed/, relative to the subject root it runs from.
+ln -sfn ../music "$here/dataset/processed"
