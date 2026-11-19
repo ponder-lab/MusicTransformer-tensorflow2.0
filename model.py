@@ -8,6 +8,7 @@ import tensorflow_probability as tfp
 import random
 import utils
 from progress.bar import Bar
+from tensorflow import function
 tf.executing_eagerly()
 
 
@@ -236,6 +237,7 @@ class MusicTransformer(keras.Model):
         self.dist = config['dist']
 
     @staticmethod
+    @function
     def __prepare_train_data(x, y):
         start_token = tf.ones((y.shape[0], 1), dtype=y.dtype) * par.token_sos
         # end_token = tf.ones((y.shape[0], 1), dtype=y.dtype) * par.token_eos
