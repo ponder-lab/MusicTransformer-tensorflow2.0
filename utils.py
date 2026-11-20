@@ -153,7 +153,6 @@ def weights2boards(weights, dir, step): # weights stored weight[layer][w1,w2]
     pass
 
 
-@tf.function(input_signature=[tf.TensorSpec(shape=(None, None, None, None), dtype=tf.float32)])
 def shape_list(x):
   """Shape list"""
   x_shape = tf.shape(x)
@@ -193,6 +192,7 @@ def attention_image_summary(attn, step=0):
   tf.summary.image("attention", image, max_outputs=1, step=step)
 
 
+@tf.function
 def split_last_dimension(x, n):
   """Reshape x so that the last dimension becomes two dimensions.
   The first of these two dimensions is n.
