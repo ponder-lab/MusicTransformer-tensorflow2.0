@@ -29,6 +29,8 @@ tf.executing_eagerly()
 # %%
 l_r = 0.0024 #@param {type:"slider", min:0, max:0.1, step:0.0001}
 batch_size = 3 #@param {type:"slider", min:1, max:100, step:1}
+# The corpus harness's GPU (24 GB) runs out of memory at 3 and at 2 with max_seq 2048; 1 fits.
+batch_size = 1
 pickle_dir = "processed/" #@param {type:"string"}
 max_seq = 2048 #@param {type:"slider", min:1, max:3000, step:1}
 epochs = 1416 #@param {type:"slider", min:1, max:10000, step:1}
