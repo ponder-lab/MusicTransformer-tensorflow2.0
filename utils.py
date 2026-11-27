@@ -192,6 +192,7 @@ def attention_image_summary(attn, step=0):
   tf.summary.image("attention", image, max_outputs=1, step=step)
 
 
+@tf.function
 def split_last_dimension(x, n):
   """Reshape x so that the last dimension becomes two dimensions.
   The first of these two dimensions is n.
